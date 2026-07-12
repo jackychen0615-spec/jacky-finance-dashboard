@@ -76,6 +76,7 @@ export default function Home() {
           <a href="#overview">總覽</a>
           <a href="#cashflow">現金流</a>
           <a href="#portfolio">投資配置</a>
+          <a href="#business">數位事業</a>
           <a href="#insurance">保單</a>
           <a href="#plan">10年計畫</a>
         </nav>
@@ -203,6 +204,30 @@ export default function Home() {
             ].map(([bank, role, rule]) => <article key={bank}><b>{bank}</b><strong>{role}</strong><span>{rule}</span></article>)}
           </div>
           <div className="start-checklist"><b>本月啟動順序</b><span>① 先保留本月生活費與未出帳支出　② 繳清醫療險卡費2,081元　③ 王道備妥信貸扣款　④ 月底剩餘才轉入中信帳戶2</span></div>
+        </section>
+
+        <section className="business-section" id="business">
+          <div className="business-head">
+            <div><span>DIGITAL BUSINESS CASHFLOW</span><h2>網域投資與數位事業</h2><p>兩個網站都以建立現金流為目的；先分開記錄成本與收入，再判斷是否值得擴大投入。</p></div>
+            <b>驗證現金流中</b>
+          </div>
+          <div className="business-grid">
+            <article className="business-card">
+              <div className="business-title"><div><span>內容／工具網站</span><h3>gulicalc.com</h3></div><b className="status yellow">廣告審核中</b></div>
+              <p>透過 iChannels 與 Google Ads 建立廣告及導購現金流；Google Ads 尚未審核成功。</p>
+              <a href="https://gulicalc.com/" target="_blank" rel="noreferrer">開啟網站 ↗</a>
+              <div className="business-numbers"><div><span>累積收入</span><b>待記錄</b></div><div><span>累積成本</span><b>待記錄</b></div><div><span>目前淨現金流</span><b>待驗證</b></div></div>
+              <div className="next-step"><b>下一步</b><span>完成廣告審核、記錄每月流量與實際入帳收入。</span></div>
+            </article>
+            <article className="business-card">
+              <div className="business-title"><div><span>數位商品網站</span><h3>nanaseoul77.com</h3></div><b className="status yellow">市場驗證中</b></div>
+              <p>販售簡單圖片取得數位商品收入，重點是驗證是否有人願意付費，以及單張圖片的實際淨利。</p>
+              <a href="https://nanaseoul77.com/" target="_blank" rel="noreferrer">開啟網站 ↗</a>
+              <div className="business-numbers"><div><span>累積收入</span><b>待記錄</b></div><div><span>累積成本</span><b>待記錄</b></div><div><span>目前淨現金流</span><b>待驗證</b></div></div>
+              <div className="next-step"><b>下一步</b><span>記錄圖片數量、成交件數、售價與平台／金流費用。</span></div>
+            </article>
+          </div>
+          <div className="business-rule"><strong>數位事業記帳規則</strong><span>網站淨現金流＝廣告與圖片收入－Kling AI－Cloudflare－網域－金流及其他網站成本</span><em>起步期每月成本上限：NT$1,500</em></div>
         </section>
 
         <section className="insurance-section" id="insurance">
