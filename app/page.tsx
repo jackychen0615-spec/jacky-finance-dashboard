@@ -12,7 +12,7 @@ const portfolio = [
 ];
 
 const stockValue = 250147;
-const cash = 1957;
+const cash = 16357;
 const debt = 413346;
 const income = 33104;
 const living = 12500;
@@ -117,7 +117,7 @@ export default function Home() {
         <section className="metrics six" aria-label="財務摘要">
           <MetricCard tone="teal" icon="↗" label="股票資產" value={`NT$${money.format(stockValue)}`} note="投入成本 NT$168,263" />
           <MetricCard tone="purple" icon="₿" label="加密貨幣" value={`約 NT$${money.format(cryptoValue)}`} note="占股票＋加密資產 24.7%" />
-          <MetricCard tone="teal" icon="▣" label="已確認預備金" value={`NT$${money.format(cash)}`} note="目前在遠東，待移至中信第二帳戶" />
+          <MetricCard tone="teal" icon="▣" label="緊急預備金" value={`NT$${money.format(cash)}`} note="中信第二帳戶・6萬元目標完成27.3%" />
           <MetricCard tone="red" icon="▤" label="信貸餘額" value={`NT$${money.format(debt)}`} note="原始貸款 NT$470,000" />
           <MetricCard tone="orange" icon="◇" label="保單帳戶價值" value={`NT$${money.format(policyAccountValue)}`} note="不一定等於解約可領金額" />
           <MetricCard tone="teal" icon="◫" label="每月初估可分配" value={`約 NT$${money.format(monthlySurplus)}`} note="已扣生活、娛樂、信貸與醫療險分期" />
@@ -144,7 +144,15 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="unknown-note"><b>已知資料</b><span>醫療險每月2,081元；畫面推定為12期中的第7期，剩餘期數仍待信用卡確認。</span></div>
+            <div className="living-detail">
+              <b>12,500元生活費內含</b>
+              <div><span>平日早午餐</span><strong>約 NT$3,300</strong></div>
+              <div><span>平日晚餐</span><strong>約 NT$5,500</strong></div>
+              <div><span>加熱菸（每週4～5包）</span><strong>約 NT$2,252～2,815</strong></div>
+              <div><span>飲料／零星緩衝</span><strong>約 NT$885～1,448</strong></div>
+              <small>以每月22個平日估算；假日餐費與機車油錢由家人協助。</small>
+            </div>
+            <div className="unknown-note"><b>已更新</b><span>本月醫療險信用卡2,081元已繳清。</span></div>
           </article>
 
           <article className="panel loan-panel">
@@ -183,10 +191,10 @@ export default function Home() {
                 ["台股ETF", stockValue, 71.6, "#2f6bff"],
                 ["加密貨幣", cryptoValue, 23.4, "#7b61ff"],
                 ["保單帳戶價值", policyAccountValue, 2.6, "#f4a340"],
-                ["已確認現金", cash, 0.6, "#12b8a6"],
+                ["緊急預備金", cash, 4.7, "#12b8a6"],
               ].map(([label, value, pct, color]) => <div key={String(label)}><div><i style={{ background: String(color) }} /><span>{label}</span><b>NT${money.format(Number(value))}</b></div><div className="mix-bar"><i style={{ width: `${pct}%`, background: String(color) }} /></div><em>{pct}%</em></div>)}
             </div>
-            <div className="stress-card"><span>核心問題</span><strong>風險資產很多，立即可用現金太少</strong><small>股票與加密貨幣合計超過33萬元；目前只把遠東帳戶1,957元列為已確認預備金，避免重複計算。</small></div>
+            <div className="stress-card"><span>現階段重點</span><strong>預備金已啟動，繼續累積至6萬元</strong><small>目前16,357元；既有ETF繼續持有，新增資金先補安全墊。</small></div>
           </article>
         </section>
 
@@ -202,6 +210,12 @@ export default function Home() {
               ["永豐", "台股投資", "ETF買進、配息與證券交割"],
               ["王道", "信貸還款", "專款保留每期信貸扣款，不混用生活支出"],
             ].map(([bank, role, rule]) => <article key={bank}><b>{bank}</b><strong>{role}</strong><span>{rule}</span></article>)}
+          </div>
+          <div className="account-snapshot">
+            <div><span>中信生活費餘額</span><b>NT$9,072</b></div>
+            <div><span>中信緊急預備金</span><b>NT$16,357</b></div>
+            <div><span>國泰未分配餘額</span><b>NT$5,219</b></div>
+            <div><span>本月醫療險卡費</span><b className="paid">已繳清</b></div>
           </div>
           <div className="start-checklist"><b>本月啟動順序</b><span>① 先保留本月生活費與未出帳支出　② 繳清醫療險卡費2,081元　③ 王道備妥信貸扣款　④ 月底剩餘才轉入中信帳戶2</span></div>
         </section>
@@ -228,6 +242,7 @@ export default function Home() {
             </article>
           </div>
           <div className="business-rule"><strong>數位事業記帳規則</strong><span>網站淨現金流＝廣告與圖片收入－Kling AI－Cloudflare－網域－金流及其他網站成本</span><em>起步期每月成本上限：NT$1,500</em></div>
+          <div className="business-reality"><b>現在不是「你不行」，而是還在驗證期</b><span>你看到的是別人的營收結果，通常看不到前期成本、失敗網站、廣告審核、流量累積與仍需投入的工時。現階段只追蹤三件事：每週新增內容、有效流量、第一次實際入帳。</span></div>
         </section>
 
         <section className="insurance-section" id="insurance">
