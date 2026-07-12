@@ -19,6 +19,16 @@ const living = 12500;
 const discretionary = 6000;
 const loanPayment = 6851;
 const monthlySurplus = income - living - discretionary - loanPayment;
+const cryptoValue = 81897;
+const policyAccountValue = 8921;
+
+const crypto = [
+  { code: "FET", value: 31140, share: 38.0, color: "#273457" },
+  { code: "ETH", value: 27810, share: 34.0, color: "#627eea" },
+  { code: "XRP", value: 14270, share: 17.4, color: "#101820" },
+  { code: "BNB", value: 5280, share: 6.4, color: "#f3ba2f" },
+  { code: "preSPCX／其他", value: 3397, share: 4.2, color: "#9b77b9" },
+];
 
 function futureValue(principal: number, monthly: number, annual: number, years: number) {
   const rate = Math.pow(1 + annual / 100, 1 / 12) - 1;
@@ -44,6 +54,7 @@ export default function Home() {
   const [monthly, setMonthly] = useState(monthlySurplus);
   const [annualReturn, setAnnualReturn] = useState(8);
   const [activeFaq, setActiveFaq] = useState<number | null>(0);
+  const [premiumConfirmed, setPremiumConfirmed] = useState(false);
 
   const projection = useMemo(() => futureValue(stockValue, monthly, annualReturn, 10), [monthly, annualReturn]);
   const passiveFour = projection * 0.04 / 12;
@@ -64,6 +75,7 @@ export default function Home() {
           <a href="#overview">總覽</a>
           <a href="#cashflow">現金流</a>
           <a href="#portfolio">投資配置</a>
+          <a href="#insurance">保單</a>
           <a href="#plan">10年計畫</a>
         </nav>
         <div className="profile"><span>J</span><b>Jacky</b></div>
@@ -72,7 +84,7 @@ export default function Home() {
       <div className="page-shell" id="top">
         <section className="hero" id="overview">
           <div className="hero-copy">
-            <div className="eyebrow"><span /> 依 2026/07/11 資料更新</div>
+            <div className="eyebrow"><span /> 依 2026/07/12 資料更新</div>
             <h1>你的財務自由，<br />先從看懂現況開始。</h1>
             <p>把資產、負債與現金流放在同一張圖上，判斷現在該做的是增加槓桿，還是先建立安全墊。</p>
             <div className="hero-actions">
@@ -100,10 +112,12 @@ export default function Home() {
           </article>
         </section>
 
-        <section className="metrics" aria-label="財務摘要">
+        <section className="metrics six" aria-label="財務摘要">
           <MetricCard tone="teal" icon="↗" label="股票資產" value={`NT$${money.format(stockValue)}`} note="投入成本 NT$168,263" />
+          <MetricCard tone="purple" icon="₿" label="加密貨幣" value={`約 NT$${money.format(cryptoValue)}`} note="占股票＋加密資產 24.7%" />
           <MetricCard tone="teal" icon="▣" label="現金" value={`NT$${money.format(cash)}`} note="僅約 0.44 個月安全墊" />
           <MetricCard tone="red" icon="▤" label="信貸餘額" value={`NT$${money.format(debt)}`} note="原始貸款 NT$470,000" />
+          <MetricCard tone="orange" icon="◇" label="保單帳戶價值" value={`NT$${money.format(policyAccountValue)}`} note="不一定等於解約可領金額" />
           <MetricCard tone="teal" icon="◫" label="每月帳面結餘" value={`約 NT$${money.format(monthlySurplus)}`} note="尚未扣年度保費與分期" />
         </section>
 
@@ -145,6 +159,66 @@ export default function Home() {
           </article>
         </section>
 
+        <section className="section-grid asset-grid">
+          <article className="panel crypto-panel">
+            <div className="section-heading"><div><span>CRYPTO ASSETS</span><h2>加密貨幣配置</h2></div><b className="status red">目前偏高</b></div>
+            <div className="crypto-total"><div><span>估計總價值</span><strong>約 NT$81,897</strong></div><div><span>占股票＋加密資產</span><strong>24.7%</strong></div></div>
+            <div className="crypto-bar" aria-label="加密貨幣比例">
+              {crypto.map((item) => <i key={item.code} style={{ width: `${item.share}%`, background: item.color }} title={`${item.code} ${item.share}%`} />)}
+            </div>
+            <div className="crypto-list">
+              {crypto.map((item) => <div key={item.code}><i style={{ background: item.color }} /><b>{item.code}</b><span>約 NT${money.format(item.value)}</span><em>{item.share}%</em></div>)}
+            </div>
+            <div className="crypto-advice"><b>目前策略：暫停加碼</b><span>不開合約、不質押借款，先讓加密貨幣占比隨現金與核心ETF增加而降至10%～15%。</span></div>
+          </article>
+
+          <article className="panel allocation-panel">
+            <div className="section-heading"><div><span>TOTAL ASSET MIX</span><h2>完整資產結構</h2></div></div>
+            <div className="asset-total"><span>已知資產合計</span><strong>約 NT$349,426</strong><small>扣除信貸後，已知淨值約－NT$63,920</small></div>
+            <div className="mix-list">
+              {[
+                ["台股ETF", stockValue, 71.6, "#2f6bff"],
+                ["加密貨幣", cryptoValue, 23.4, "#7b61ff"],
+                ["保單帳戶價值", policyAccountValue, 2.6, "#f4a340"],
+                ["現金", cash, 2.4, "#12b8a6"],
+              ].map(([label, value, pct, color]) => <div key={String(label)}><div><i style={{ background: String(color) }} /><span>{label}</span><b>NT${money.format(Number(value))}</b></div><div className="mix-bar"><i style={{ width: `${pct}%`, background: String(color) }} /></div><em>{pct}%</em></div>)}
+            </div>
+            <div className="stress-card"><span>核心問題</span><strong>風險資產很多，立即可用現金太少</strong><small>股票與加密貨幣合計超過33萬元，但現金僅8,461元。</small></div>
+          </article>
+        </section>
+
+        <section className="insurance-section" id="insurance">
+          <div className="insurance-head">
+            <div><span>INSURANCE REVIEW</span><h2>三商美邦投資型保單</h2><p>口頭通知業務停繳，不等於公司系統已完成停繳手續。</p></div>
+            <b>待書面確認</b>
+          </div>
+          <div className="insurance-grid">
+            <article className="policy-card">
+              <div className="policy-title"><div><span>金世紀優利變額萬能終身壽險 A型</span><strong>系統顯示：繳費中</strong></div><i>!</i></div>
+              <div className="policy-data">
+                <div><span>基本保額</span><b>NT$1,250,000</b></div>
+                <div><span>年繳保費</span><b>NT$36,000</b></div>
+                <div><span>帳戶價值</span><b>NT$8,921</b></div>
+                <div><span>累積報酬率</span><b className="red-text">－12.15%</b></div>
+                <div><span>契約生效日</span><b>2024/11/30</b></div>
+                <div><span>畫面下次應繳日</span><b>2026/11/30</b></div>
+              </div>
+              <p>帳戶價值會繼續負擔保險成本與管理費，也不一定等於現在解約可領回的金額。</p>
+            </article>
+            <article className="confirm-card">
+              <h3>請向業務或客服取得書面確認</h3>
+              <ol>
+                <li><i>1</i><span>每年36,000元定期保費是否已正式停繳？</span></li>
+                <li><i>2</i><span>銀行自動轉帳授權是否已取消？</span></li>
+                <li><i>3</i><span>2026/11/30是否還會自動扣款？</span></li>
+                <li><i>4</i><span>停繳後每月扣多少保險及管理費？</span></li>
+                <li><i>5</i><span>8,921元預估可維持保障到何時？</span></li>
+                <li><i>6</i><span>今天解約實際可以領回多少？</span></li>
+              </ol>
+            </article>
+          </div>
+        </section>
+
         <section className="section-grid portfolio-grid" id="portfolio">
           <article className="panel portfolio-panel">
             <div className="section-heading"><div><span>PORTFOLIO</span><h2>ETF 投資配置</h2></div><b className="status green">累積獲利 +48.7%</b></div>
@@ -176,6 +250,78 @@ export default function Home() {
               <small>帳面縮水約 NT$75,044；信貸本金與月繳不會跟著下降。</small>
             </div>
           </article>
+        </section>
+
+        <section className="monthly-plan-section" id="monthly-plan">
+          <div className="plan-top">
+            <div><span>MONTHLY INVESTMENT PLAN</span><h2>接下來每月怎麼分配</h2><p>先選擇保單狀態，網站會顯示對應的可執行版本。</p></div>
+            <div className="scenario-switch" role="group" aria-label="保單停繳狀態">
+              <button className={!premiumConfirmed ? "active" : ""} onClick={() => setPremiumConfirmed(false)}>尚未書面確認</button>
+              <button className={premiumConfirmed ? "active" : ""} onClick={() => setPremiumConfirmed(true)}>已確認不再扣款</button>
+            </div>
+          </div>
+
+          {!premiumConfirmed ? (
+            <div className="scenario-banner pending"><b>目前採保守版本</b><span>暫時每月預留3,000元保費，直到收到公司正式確認。</span></div>
+          ) : (
+            <div className="scenario-banner confirmed"><b>停繳確認版本</b><span>取消3,000元保費預留，優先補足緊急預備金。</span></div>
+          )}
+
+          <div className="stage-grid">
+            <article className="stage-card featured">
+              <div className="stage-label"><b>階段 1</b><span>現在開始</span></div>
+              <h3>現金先達到 NT$60,000</h3>
+              <div className="budget-lines">
+                {(!premiumConfirmed ? [
+                  ["三商美邦保費預留", 3000, "orange"],
+                  ["緊急預備金", 4000, "teal"],
+                  ["ETF／加密貨幣", 0, "gray"],
+                  ["每月緩衝", 753, "blue"],
+                ] : [
+                  ["緊急預備金", 6000, "teal"],
+                  ["年度保險及稅費準備", 1000, "orange"],
+                  ["009816 最低持續投入", 753, "blue"],
+                  ["其他ETF／加密貨幣", 0, "gray"],
+                ]).map(([label, amount, tone]) => <div key={String(label)}><span><i className={String(tone)} />{label}</span><b>NT${money.format(Number(amount))}</b></div>)}
+              </div>
+              <em>目標：先建立不必賣資產的第一層防線</em>
+            </article>
+
+            <article className="stage-card">
+              <div className="stage-label"><b>階段 2</b><span>現金6萬～12萬</span></div>
+              <h3>開始少量投資與還款</h3>
+              <div className="budget-lines">
+                <div><span><i className="teal" />緊急預備金</span><b>NT$3,500</b></div>
+                <div><span><i className="red" />額外償還信貸</span><b>NT$2,000</b></div>
+                <div><span><i className="blue" />009816</span><b>NT$1,250</b></div>
+                <div><span><i className="orange" />年度支出準備</span><b>NT$1,000</b></div>
+              </div>
+              <em>0056／00878／00919／加密貨幣：0元</em>
+            </article>
+
+            <article className="stage-card">
+              <div className="stage-label"><b>階段 3</b><span>預備金達12萬</span></div>
+              <h3>加速處理6%信貸</h3>
+              <div className="budget-lines">
+                <div><span><i className="red" />額外償還信貸</span><b>NT$4,500</b></div>
+                <div><span><i className="blue" />009816</span><b>NT$2,250</b></div>
+                <div><span><i className="orange" />年度支出準備</span><b>NT$1,000</b></div>
+                <div><span><i className="gray" />其他ETF／加密貨幣</span><b>NT$0</b></div>
+              </div>
+              <em>既有高股息部位先保留，不再重複加碼</em>
+            </article>
+          </div>
+
+          <div className="etf-roadmap">
+            <div><span>信貸結清後</span><h3>每月ETF投入提高至 NT$10,000</h3><p>前24個月先將10,000元集中投入009816，提高核心大型股比重。</p></div>
+            <div className="etf-targets">
+              <div><b>009816</b><span>NT$10,000</span><em>核心補強</em></div>
+              <div><b>0056</b><span>NT$0</span><em>目前已過重</em></div>
+              <div><b>00878</b><span>NT$0</span><em>目前已持有</em></div>
+              <div><b>00919</b><span>NT$0</span><em>目前已持有</em></div>
+              <div><b>加密貨幣</b><span>NT$0</span><em>先降至10%～15%</em></div>
+            </div>
+          </div>
         </section>
 
         <section className="goal-section" id="plan">
@@ -237,7 +383,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer><div><b>Jacky 財務自由規劃儀表板</b><span>以你提供的資料製作，最後更新：2026/07/11</span></div><p>本頁為個人財務規劃與情境試算，不構成特定證券買賣建議。</p></footer>
+        <footer><div><b>Jacky 財務自由規劃儀表板</b><span>以你提供的資料製作，最後更新：2026/07/12</span></div><p>本頁為個人財務規劃與情境試算，不構成特定證券買賣建議。</p></footer>
       </div>
     </main>
   );
