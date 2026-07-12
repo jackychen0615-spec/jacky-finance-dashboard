@@ -12,13 +12,14 @@ const portfolio = [
 ];
 
 const stockValue = 250147;
-const cash = 8461;
+const cash = 1957;
 const debt = 413346;
 const income = 33104;
 const living = 12500;
-const discretionary = 6000;
+const discretionary = 2000;
 const loanPayment = 6851;
-const monthlySurplus = income - living - discretionary - loanPayment;
+const medicalInstallment = 2081;
+const monthlySurplus = income - living - discretionary - loanPayment - medicalInstallment;
 const cryptoValue = 81897;
 const policyAccountValue = 8921;
 
@@ -84,7 +85,7 @@ export default function Home() {
       <div className="page-shell" id="top">
         <section className="hero" id="overview">
           <div className="hero-copy">
-            <div className="eyebrow"><span /> 依 2026/07/12 資料更新</div>
+            <div className="eyebrow"><span /> 2026/07/12 已開始執行</div>
             <h1>你的財務自由，<br />先從看懂現況開始。</h1>
             <p>把資產、負債與現金流放在同一張圖上，判斷現在該做的是增加槓桿，還是先建立安全墊。</p>
             <div className="hero-actions">
@@ -101,7 +102,7 @@ export default function Home() {
               </div>
               <div className="health-summary">
                 <div className="warning"><b>!</b><strong>目前不適合新增貸款投資</strong></div>
-                <p>投資成果良好，但現金只能支撐不到半個月；優先強化現金安全墊，再降低負債。</p>
+                <p>投資成果良好，現在已完成帳戶分工；下一步是把第一筆預備金移入中信第二帳戶，再逐月累積。</p>
                 <ul>
                   <li className="bad"><i>↓</i><span>現金緩衝偏低</span><em>需加強</em></li>
                   <li className="bad"><i>↓</i><span>金融淨值為負</span><em>需注意</em></li>
@@ -115,10 +116,10 @@ export default function Home() {
         <section className="metrics six" aria-label="財務摘要">
           <MetricCard tone="teal" icon="↗" label="股票資產" value={`NT$${money.format(stockValue)}`} note="投入成本 NT$168,263" />
           <MetricCard tone="purple" icon="₿" label="加密貨幣" value={`約 NT$${money.format(cryptoValue)}`} note="占股票＋加密資產 24.7%" />
-          <MetricCard tone="teal" icon="▣" label="現金" value={`NT$${money.format(cash)}`} note="僅約 0.44 個月安全墊" />
+          <MetricCard tone="teal" icon="▣" label="已確認預備金" value={`NT$${money.format(cash)}`} note="目前在遠東，待移至中信第二帳戶" />
           <MetricCard tone="red" icon="▤" label="信貸餘額" value={`NT$${money.format(debt)}`} note="原始貸款 NT$470,000" />
           <MetricCard tone="orange" icon="◇" label="保單帳戶價值" value={`NT$${money.format(policyAccountValue)}`} note="不一定等於解約可領金額" />
-          <MetricCard tone="teal" icon="◫" label="每月帳面結餘" value={`約 NT$${money.format(monthlySurplus)}`} note="尚未扣年度保費與分期" />
+          <MetricCard tone="teal" icon="◫" label="每月初估可分配" value={`約 NT$${money.format(monthlySurplus)}`} note="已扣生活、娛樂、信貸與醫療險分期" />
         </section>
 
         <section className="section-grid" id="cashflow">
@@ -133,6 +134,7 @@ export default function Home() {
                 ["基本生活費", living, "#2f6bff"],
                 ["非必要支出", discretionary, "#7b61ff"],
                 ["信貸月繳", loanPayment, "#ef5b5b"],
+                ["醫療險分期", medicalInstallment, "#f4a340"],
                 ["帳面結餘", monthlySurplus, "#12b8a6"],
               ].map(([label, value, color]) => (
                 <div className="flow-row" key={String(label)}>
@@ -141,7 +143,7 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            <div className="unknown-note"><b>待補資料</b><span>醫療險年度總額、信用卡分期金額與剩餘期數</span></div>
+            <div className="unknown-note"><b>已知資料</b><span>醫療險每月2,081元；畫面推定為12期中的第7期，剩餘期數仍待信用卡確認。</span></div>
           </article>
 
           <article className="panel loan-panel">
@@ -180,11 +182,27 @@ export default function Home() {
                 ["台股ETF", stockValue, 71.6, "#2f6bff"],
                 ["加密貨幣", cryptoValue, 23.4, "#7b61ff"],
                 ["保單帳戶價值", policyAccountValue, 2.6, "#f4a340"],
-                ["現金", cash, 2.4, "#12b8a6"],
+                ["已確認現金", cash, 0.6, "#12b8a6"],
               ].map(([label, value, pct, color]) => <div key={String(label)}><div><i style={{ background: String(color) }} /><span>{label}</span><b>NT${money.format(Number(value))}</b></div><div className="mix-bar"><i style={{ width: `${pct}%`, background: String(color) }} /></div><em>{pct}%</em></div>)}
             </div>
-            <div className="stress-card"><span>核心問題</span><strong>風險資產很多，立即可用現金太少</strong><small>股票與加密貨幣合計超過33萬元，但現金僅8,461元。</small></div>
+            <div className="stress-card"><span>核心問題</span><strong>風險資產很多，立即可用現金太少</strong><small>股票與加密貨幣合計超過33萬元；目前只把遠東帳戶1,957元列為已確認預備金，避免重複計算。</small></div>
           </article>
+        </section>
+
+        <section className="account-section" id="accounts">
+          <div className="section-heading"><div><span>ACCOUNT SYSTEM</span><h2>銀行帳戶分工｜已開始執行</h2></div><b className="status green">分流規則已確立</b></div>
+          <div className="account-grid">
+            {[
+              ["國泰", "薪轉入口", "薪水入帳後依預算分流，不作長期囤款"],
+              ["中信帳戶 1", "生活費＋保費信用卡", "每月轉入生活預算與醫療險卡費"],
+              ["中信帳戶 2", "緊急預備金", "不綁消費、不投資；第一階段目標 NT$60,000"],
+              ["台新", "其他消費信用卡", "Kling AI、Cloudflare、交通與娛樂支出"],
+              ["遠東", "加密貨幣出入金", "只做加密貨幣轉台幣；現有1,957元待移出"],
+              ["永豐", "台股投資", "ETF買進、配息與證券交割"],
+              ["王道", "信貸還款", "專款保留每期信貸扣款，不混用生活支出"],
+            ].map(([bank, role, rule]) => <article key={bank}><b>{bank}</b><strong>{role}</strong><span>{rule}</span></article>)}
+          </div>
+          <div className="start-checklist"><b>本月啟動順序</b><span>① 先保留本月生活費與未出帳支出　② 繳清醫療險卡費2,081元　③ 王道備妥信貸扣款　④ 月底剩餘才轉入中信帳戶2</span></div>
         </section>
 
         <section className="insurance-section" id="insurance">
@@ -270,7 +288,7 @@ export default function Home() {
           <div className="stage-grid">
             <article className="stage-card featured">
               <div className="stage-label"><b>階段 1</b><span>現在開始</span></div>
-              <h3>現金先達到 NT$60,000</h3>
+              <h3>預備金先達到 NT$60,000</h3>
               <div className="budget-lines">
                 {(!premiumConfirmed ? [
                   ["三商美邦保費預留", 3000, "orange"],
@@ -293,10 +311,10 @@ export default function Home() {
               <div className="budget-lines">
                 <div><span><i className="teal" />緊急預備金</span><b>NT$3,500</b></div>
                 <div><span><i className="red" />額外償還信貸</span><b>NT$2,000</b></div>
-                <div><span><i className="blue" />009816</span><b>NT$1,250</b></div>
+                <div><span><i className="blue" />ETF定期投入</span><b>NT$1,250</b></div>
                 <div><span><i className="orange" />年度支出準備</span><b>NT$1,000</b></div>
               </div>
-              <em>0056／00878／00919／加密貨幣：0元</em>
+              <em>ETF 1,250元：009816 750・0056 150・00878 175・00919 175</em>
             </article>
 
             <article className="stage-card">
@@ -304,21 +322,21 @@ export default function Home() {
               <h3>加速處理6%信貸</h3>
               <div className="budget-lines">
                 <div><span><i className="red" />額外償還信貸</span><b>NT$4,500</b></div>
-                <div><span><i className="blue" />009816</span><b>NT$2,250</b></div>
+                <div><span><i className="blue" />ETF定期投入</span><b>NT$2,250</b></div>
                 <div><span><i className="orange" />年度支出準備</span><b>NT$1,000</b></div>
                 <div><span><i className="gray" />其他ETF／加密貨幣</span><b>NT$0</b></div>
               </div>
-              <em>既有高股息部位先保留，不再重複加碼</em>
+              <em>ETF 2,250元：009816 1,350・0056 200・00878 350・00919 350</em>
             </article>
           </div>
 
           <div className="etf-roadmap">
-            <div><span>信貸結清後</span><h3>每月ETF投入提高至 NT$10,000</h3><p>前24個月先將10,000元集中投入009816，提高核心大型股比重。</p></div>
+            <div><span>信貸結清後</span><h3>每月ETF投入提高至 NT$10,000</h3><p>009816作為成長核心；0056、00878、00919延續錯開配息的現金流層。</p></div>
             <div className="etf-targets">
-              <div><b>009816</b><span>NT$10,000</span><em>核心補強</em></div>
-              <div><b>0056</b><span>NT$0</span><em>目前已過重</em></div>
-              <div><b>00878</b><span>NT$0</span><em>目前已持有</em></div>
-              <div><b>00919</b><span>NT$0</span><em>目前已持有</em></div>
+              <div><b>009816</b><span>NT$6,000</span><em>成長核心 60%</em></div>
+              <div><b>0056</b><span>NT$1,000</span><em>現金流層</em></div>
+              <div><b>00878</b><span>NT$1,500</span><em>現金流層</em></div>
+              <div><b>00919</b><span>NT$1,500</span><em>現金流層</em></div>
               <div><b>加密貨幣</b><span>NT$0</span><em>先降至10%～15%</em></div>
             </div>
           </div>
@@ -360,7 +378,7 @@ export default function Home() {
         <section className="action-section" id="actions">
           <div className="section-heading action-heading"><div><span>ACTION ROADMAP</span><h2>你的財務行動路線圖</h2><p>先避免被迫賣出，再提高本金累積速度。</p></div></div>
           <div className="timeline">
-            <article><b>01</b><span>現在～10個月</span><h3>補足現金安全墊</h3><p>先把現金提高到6～8萬元，再逐步完成12萬元緊急預備金。暫停新增貸款與質押。</p><em>優先級：最高</em></article>
+            <article><b>01</b><span>現在開始</span><h3>補足現金安全墊</h3><p>中信第二帳戶先達6萬元，再逐步完成13萬元緊急預備金。暫停新增貸款與質押。</p><em>執行中</em></article>
             <article><b>02</b><span>預備金完成後</span><h3>降低6%信貸</h3><p>每月真實結餘建議70%額外還本金、30%維持無槓桿投資；先確認保費與分期後再執行。</p><em>確定性節息</em></article>
             <article><b>03</b><span>1～4年</span><h3>提高可投入本金</h3><p>真正的槓桿是獵頭佣金、AI自動化服務與課程收入，目標先把月收入提升至6～10萬元。</p><em>核心成長引擎</em></article>
             <article><b>04</b><span>4～10年</span><h3>建立多元現金流</h3><p>金融資產提供20%～30%，其餘由課程、內容與系統化服務形成半被動收入。</p><em>目標：月收10萬</em></article>
@@ -371,7 +389,7 @@ export default function Home() {
           <div><span>DECISION NOTES</span><h2>這份評估怎麼看？</h2></div>
           <div className="faqs">
             {[
-              ["為什麼有8萬元獲利，健康分數仍只有42？", "因為帳面獲利不能支付突發支出。你的現金只有8,461元，收入若中斷一個月，就可能被迫賣出ETF。"],
+              ["為什麼有8萬元獲利，健康分數仍只有42？", "因為帳面獲利不能直接取代緊急現金。目前只確認遠東帳戶1,957元，若收入中斷，仍可能被迫賣出ETF。"],
               ["可以直接賣掉ETF還清貸款嗎？", "不建議在資料不完整時一次清空。較平衡的做法是先把部分獲利轉成6～8萬元現金，再確認年度保費與分期後決定提前還款幅度。"],
               ["什麼時候才適合貸款投資？", "至少要有9～12個月預備金、收入穩定、沒有6%以上高成本負債，而且市場下跌50%時仍不必賣出。"],
             ].map(([q, a], index) => (
