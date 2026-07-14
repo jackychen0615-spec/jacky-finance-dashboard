@@ -13,10 +13,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starter Project",
-  description: "A clean starting point for building your site.",
-  other: {
-    "codex-preview": "development",
+  metadataBase: new URL("https://jacky-finance-dashboard.jackyyuqi.chatgpt.site"),
+  title: "Jacky 財務島｜個人財務決策儀表板",
+  description: "整合現金流、緊急預備金、投資、信貸、保單與數位事業的個人財務決策儀表板。",
+  openGraph: {
+    title: "Jacky 財務島",
+    description: "先守住安全墊，再讓資產長大。",
+    images: [{ url: "/og.png", width: 1536, height: 864, alt: "Jacky 財務島" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jacky 財務島",
+    description: "先守住安全墊，再讓資產長大。",
+    images: ["/og.png"],
   },
   icons: {
     icon: "/favicon.svg",
@@ -30,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="zh-Hant">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

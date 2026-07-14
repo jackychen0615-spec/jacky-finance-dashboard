@@ -51,6 +51,54 @@ function MetricCard({ tone, icon, label, value, note }: { tone: string; icon: st
   );
 }
 
+function FinanceIsland() {
+  const reserveProgress = Math.min(100, cash / 60000 * 100);
+
+  return (
+    <article className="finance-island" aria-label="Jacky 財務島總覽">
+      <div className="island-topline">
+        <div><span>JACKY&apos;S FINANCE MAP</span><h2>我的財務島</h2></div>
+        <b><i /> 資料更新於 2026/07/14</b>
+      </div>
+
+      <div className="island-canvas">
+        <div className="island-orbit orbit-one" />
+        <div className="island-orbit orbit-two" />
+
+        <div className="island-land">
+          <div className="island-center">
+            <span>目前已知淨值</span>
+            <strong>－NT${money.format(debt - stockValue - cryptoValue - policyAccountValue - cash)}</strong>
+            <small>風險資產充足，現金安全墊仍是首要任務</small>
+          </div>
+
+          <a className="island-zone reserve-zone" href="#monthly-plan">
+            <i aria-hidden="true">⌂</i><span>安全基地</span><b>NT${money.format(cash)}</b><small>目標 6 萬</small>
+          </a>
+          <a className="island-zone etf-zone" href="#portfolio">
+            <i aria-hidden="true">↗</i><span>ETF 花園</span><b>NT${money.format(stockValue)}</b><small>成長＋現金流</small>
+          </a>
+          <a className="island-zone crypto-zone" href="#cashflow">
+            <i aria-hidden="true">◆</i><span>加密礦區</span><b>NT${money.format(cryptoValue)}</b><small>暫停加碼</small>
+          </a>
+          <a className="island-zone debt-zone" href="#cashflow">
+            <i aria-hidden="true">≋</i><span>負債橋梁</span><b>NT${money.format(debt)}</b><small>年利率約 6%</small>
+          </a>
+          <a className="island-zone business-zone" href="#business">
+            <i aria-hidden="true">✦</i><span>數位商業區</span><b>4 項計畫</b><small>驗證現金流中</small>
+          </a>
+        </div>
+      </div>
+
+      <div className="island-progress">
+        <div><span>第一階段｜緊急預備金</span><b>{reserveProgress.toFixed(1)}%</b></div>
+        <div className="island-progress-track"><i style={{ width: `${reserveProgress}%` }} /></div>
+        <p>距離 NT$60,000 還差 <strong>NT${money.format(60000 - cash)}</strong>，達標前暫緩新增 ETF 與貸款投資。</p>
+      </div>
+    </article>
+  );
+}
+
 export default function Home() {
   const [monthly, setMonthly] = useState(monthlySurplus);
   const [annualReturn, setAnnualReturn] = useState(8);
@@ -86,32 +134,16 @@ export default function Home() {
       <div className="page-shell" id="top">
         <section className="hero" id="overview">
           <div className="hero-copy">
-            <div className="eyebrow"><span /> 2026/07/12 已開始執行</div>
-            <h1>你的財務自由，<br />先從看懂現況開始。</h1>
-            <p>把資產、負債與現金流放在同一張圖上，判斷現在該做的是增加槓桿，還是先建立安全墊。</p>
+            <div className="eyebrow"><span /> MY FINANCIAL CONTROL CENTER</div>
+            <h1>把每一筆錢，<br />放到對的位置。</h1>
+            <p>一座看得懂、能行動的個人財務島。先守住現金安全墊，再讓投資與數位事業成為長期成長引擎。</p>
             <div className="hero-actions">
               <button onClick={() => scrollTo("actions")}>查看行動計畫 <span>→</span></button>
               <button className="secondary" onClick={() => scrollTo("simulator")}>模擬10年目標</button>
             </div>
           </div>
 
-          <article className="health-card">
-            <div className="health-title"><h2>財務健康分數</h2><span title="依現金安全墊、負債與投資狀況綜合評估">i</span></div>
-            <div className="health-content">
-              <div className="score-ring" aria-label="財務健康分數 42 分">
-                <div><strong>42</strong><span>/100</span></div>
-              </div>
-              <div className="health-summary">
-                <div className="warning"><b>!</b><strong>目前不適合新增貸款投資</strong></div>
-                <p>投資成果良好，現在已完成帳戶分工；下一步是把第一筆預備金移入中信第二帳戶，再逐月累積。</p>
-                <ul>
-                  <li className="bad"><i>↓</i><span>現金緩衝偏低</span><em>需加強</em></li>
-                  <li className="bad"><i>↓</i><span>金融淨值為負</span><em>需注意</em></li>
-                  <li className="good"><i>✓</i><span>投資持續獲利</span><em>保持紀律</em></li>
-                </ul>
-              </div>
-            </div>
-          </article>
+          <FinanceIsland />
         </section>
 
         <section className="metrics six" aria-label="財務摘要">
@@ -185,7 +217,7 @@ export default function Home() {
 
           <article className="panel allocation-panel">
             <div className="section-heading"><div><span>TOTAL ASSET MIX</span><h2>完整資產結構</h2></div></div>
-            <div className="asset-total"><span>已知資產合計</span><strong>約 NT$349,426</strong><small>扣除信貸後，已知淨值約－NT$63,920</small></div>
+            <div className="asset-total"><span>已知資產合計</span><strong>約 NT${money.format(stockValue + cryptoValue + policyAccountValue + cash)}</strong><small>扣除信貸後，已知淨值約－NT${money.format(debt - stockValue - cryptoValue - policyAccountValue - cash)}</small></div>
             <div className="mix-list">
               {[
                 ["台股ETF", stockValue, 71.6, "#2f6bff"],
@@ -206,7 +238,7 @@ export default function Home() {
               ["中信帳戶 1", "生活費＋保費信用卡", "每月轉入生活預算與醫療險卡費"],
               ["中信帳戶 2", "緊急預備金", "不綁消費、不投資；第一階段目標 NT$60,000"],
               ["台新", "其他消費信用卡", "Kling AI、Cloudflare、交通與娛樂支出"],
-              ["遠東", "加密貨幣出入金", "只做加密貨幣轉台幣；現有1,957元待移出"],
+              ["遠東", "加密貨幣出入金", "只做加密貨幣轉換台幣，不列入預備金"],
               ["永豐", "台股投資", "ETF買進、配息與證券交割"],
               ["王道", "信貸還款", "專款保留每期信貸扣款，不混用生活支出"],
             ].map(([bank, role, rule]) => <article key={bank}><b>{bank}</b><strong>{role}</strong><span>{rule}</span></article>)}
@@ -429,7 +461,7 @@ export default function Home() {
           <div><span>DECISION NOTES</span><h2>這份評估怎麼看？</h2></div>
           <div className="faqs">
             {[
-              ["為什麼有8萬元獲利，健康分數仍只有42？", "因為帳面獲利不能直接取代緊急現金。目前只確認遠東帳戶1,957元，若收入中斷，仍可能被迫賣出ETF。"],
+              ["為什麼投資有獲利，仍要優先補預備金？", "因為帳面獲利不能直接取代緊急現金。最近紀錄預備金約16,357元，若收入中斷，仍可能被迫賣出ETF。"],
               ["可以直接賣掉ETF還清貸款嗎？", "不建議在資料不完整時一次清空。較平衡的做法是先把部分獲利轉成6～8萬元現金，再確認年度保費與分期後決定提前還款幅度。"],
               ["什麼時候才適合貸款投資？", "至少要有9～12個月預備金、收入穩定、沒有6%以上高成本負債，而且市場下跌50%時仍不必賣出。"],
             ].map(([q, a], index) => (
@@ -441,7 +473,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer><div><b>Jacky 財務自由規劃儀表板</b><span>以你提供的資料製作，最後更新：2026/07/12</span></div><p>本頁為個人財務規劃與情境試算，不構成特定證券買賣建議。</p></footer>
+        <footer><div><b>Jacky 財務自由規劃儀表板</b><span>以你提供的資料製作，最後更新：2026/07/14</span></div><p>本頁為個人財務規劃與情境試算，不構成特定證券買賣建議。</p></footer>
       </div>
     </main>
   );

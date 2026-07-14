@@ -1,4 +1,24 @@
-# vinext-starter
+# Jacky Finance Dashboard
+
+Jacky 的個人財務決策儀表板，以「明亮 FinTech 數據版＋財務島」呈現：
+
+- 每月薪資、生活費、娛樂費與可分配結餘
+- 緊急預備金進度與分階段行動計畫
+- 信貸本金、利率及還款策略
+- 台股 ETF 的「成長核心＋現金流層」
+- 加密貨幣配置與集中風險
+- 保單待確認事項
+- 數位事業與十年被動收入情境試算
+
+## 資料原則
+
+- 財務數字必須附上紀錄日期；不以猜測覆蓋最新資料。
+- FET 轉換 ETH 是否成交尚未確認，更新持倉前須先確認。
+- 保單目前僅能標示為「已提出停繳、正式狀態待確認」。
+- 家庭限制資產不計入可投資資金或被動收入計畫。
+- 預備金第一階段目標為 NT$60,000，達標前暫緩新增 ETF 與貸款投資。
+
+## 技術基礎
 
 A clean full-stack starter running on
 [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
