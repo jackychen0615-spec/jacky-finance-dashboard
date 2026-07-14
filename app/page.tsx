@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type CSSProperties, type PointerEvent } from "react";
 
 const money = new Intl.NumberFormat("zh-TW", { maximumFractionDigits: 0 });
 
@@ -53,19 +53,43 @@ function MetricCard({ tone, icon, label, value, note }: { tone: string; icon: st
 
 function FinanceIsland() {
   const reserveProgress = Math.min(100, cash / 60000 * 100);
+  const [tilt, setTilt] = useState({ x: 5, y: -7 });
+
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType !== "mouse") return;
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ x: Math.max(-9, Math.min(9, y * -15)), y: Math.max(-12, Math.min(12, x * 20)) });
+  };
+
+  const islandStyle = {
+    "--rx": `${tilt.x}deg`,
+    "--ry": `${tilt.y}deg`,
+  } as CSSProperties;
 
   return (
-    <article className="finance-island" aria-label="Jacky 財務島總覽">
+    <article className="finance-island" aria-label="Jacky 財務島互動總覽">
       <div className="island-topline">
         <div><span>JACKY&apos;S FINANCE MAP</span><h2>我的財務島</h2></div>
         <b><i /> 資料更新於 2026/07/14</b>
       </div>
 
-      <div className="island-canvas">
+      <div
+        className="island-canvas"
+        style={islandStyle}
+        onPointerMove={handlePointerMove}
+        onPointerLeave={() => setTilt({ x: 5, y: -7 })}
+      >
         <div className="island-orbit orbit-one" />
         <div className="island-orbit orbit-two" />
 
         <div className="island-land">
+          <div className="island-depth" aria-hidden="true" />
+          <div className="island-forest forest-one" aria-hidden="true"><i /><i /><i /></div>
+          <div className="island-forest forest-two" aria-hidden="true"><i /><i /></div>
+          <div className="island-tower" aria-hidden="true"><i /><i /><i /></div>
+          <div className="island-bridge" aria-hidden="true"><i /><i /><i /></div>
           <div className="island-center">
             <span>目前已知淨值</span>
             <strong>－NT${money.format(debt - stockValue - cryptoValue - policyAccountValue - cash)}</strong>
@@ -88,6 +112,12 @@ function FinanceIsland() {
             <i aria-hidden="true">✦</i><span>數位商業區</span><b>4 項計畫</b><small>驗證現金流中</small>
           </a>
         </div>
+      </div>
+
+      <div className="island-controls" aria-label="財務島視角控制">
+        <button type="button" onClick={() => setTilt((value) => ({ ...value, y: Math.max(-12, value.y - 5) }))} aria-label="向左旋轉財務島">←</button>
+        <button type="button" onClick={() => setTilt({ x: 5, y: -7 })}>重設視角</button>
+        <button type="button" onClick={() => setTilt((value) => ({ ...value, y: Math.min(12, value.y + 5) }))} aria-label="向右旋轉財務島">→</button>
       </div>
 
       <div className="island-progress">

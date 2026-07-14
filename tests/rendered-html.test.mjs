@@ -33,5 +33,5 @@ test("renders the finance dashboard metadata", async () => {
   const html = await response.text();
   assert.match(html, dashboardTitle);
   assert.match(html, socialPreview);
-  assert.match(html, /Jacky 財務島總覽/);
+  assert.match(html, /Jacky 財務島互動總覽/);
 });
