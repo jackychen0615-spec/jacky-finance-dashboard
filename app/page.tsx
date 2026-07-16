@@ -19,7 +19,8 @@ const living = 12500;
 const discretionary = 2000;
 const loanPayment = 6851;
 const medicalInstallment = 2081;
-const monthlySurplus = income - living - discretionary - loanPayment - medicalInstallment;
+const phoneBill = 500;
+const monthlySurplus = income - living - discretionary - loanPayment - medicalInstallment - phoneBill;
 const cryptoValue = 81897;
 const policyAccountValue = 8921;
 
@@ -182,7 +183,7 @@ export default function Home() {
           <MetricCard tone="teal" icon="▣" label="緊急預備金" value={`NT$${money.format(cash)}`} note="中信第二帳戶・6萬元目標完成27.3%" />
           <MetricCard tone="red" icon="▤" label="信貸餘額" value={`NT$${money.format(debt)}`} note="原始貸款 NT$470,000" />
           <MetricCard tone="orange" icon="◇" label="保單帳戶價值" value={`NT$${money.format(policyAccountValue)}`} note="不一定等於解約可領金額" />
-          <MetricCard tone="teal" icon="◫" label="每月初估可分配" value={`約 NT$${money.format(monthlySurplus)}`} note="已扣生活、娛樂、信貸與醫療險分期" />
+          <MetricCard tone="teal" icon="◫" label="每月初估可分配" value={`約 NT$${money.format(monthlySurplus)}`} note="已扣生活、娛樂、信貸、醫療險與電話費" />
         </section>
 
         <section className="section-grid" id="cashflow">
@@ -198,6 +199,7 @@ export default function Home() {
                 ["非必要支出", discretionary, "#7b61ff"],
                 ["信貸月繳", loanPayment, "#ef5b5b"],
                 ["醫療險分期", medicalInstallment, "#f4a340"],
+                ["每月電話費", phoneBill, "#5aa6e8"],
                 ["帳面結餘", monthlySurplus, "#12b8a6"],
               ].map(([label, value, color]) => (
                 <div className="flow-row" key={String(label)}>
@@ -265,7 +267,7 @@ export default function Home() {
           <div className="account-grid">
             {[
               ["國泰", "薪轉入口", "薪水入帳後依預算分流，不作長期囤款"],
-              ["中信帳戶 1", "生活費＋保費信用卡", "每月轉入生活預算與醫療險卡費"],
+              ["中信帳戶 1", "生活費＋保費信用卡", "每月轉入生活預算、醫療險卡費與電話費"],
               ["中信帳戶 2", "緊急預備金", "不綁消費、不投資；第一階段目標 NT$60,000"],
               ["台新", "其他消費信用卡", "Kling AI、Cloudflare、交通與娛樂支出"],
               ["遠東", "加密貨幣出入金", "只做加密貨幣轉換台幣，不列入預備金"],

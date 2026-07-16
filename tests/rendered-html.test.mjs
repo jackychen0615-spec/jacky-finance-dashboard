@@ -34,4 +34,6 @@ test("renders the finance dashboard metadata", async () => {
   assert.match(html, dashboardTitle);
   assert.match(html, socialPreview);
   assert.match(html, /Jacky 財務島互動總覽/);
+  assert.match(html, /每月電話費/);
+  assert.match(html, /9,172/);
 });
